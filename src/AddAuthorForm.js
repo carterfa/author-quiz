@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import "./AddAuthorForm.css";
 
 class AuthorForm extends React.Component {
@@ -34,7 +35,7 @@ class AuthorForm extends React.Component {
     }
 
     render() {
-        return <form>
+        return <form onSubmit={this.handleSubmit}>
             <div className="AddAuthorFormInput">
                 <label htmlFor="name">Name</label>
                 <input type="text" name="name" value={this.state.name} onChange={this.onFieldChange} />
@@ -61,4 +62,17 @@ function AddAuthorForm({ match, onAddAuthor }) {
     </div>;
 }
 
-export default AddAuthorForm;
+function mapDispatchToProps(dispatch, props) {
+    return {
+        onAddAuthor: (author) => {
+            dispatch({ type: 'ADD_AUTHOR', author });
+            props.history.push('/');
+        }
+    };
+}
+
+function mapStateToProps() {
+    return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddAuthorForm)
